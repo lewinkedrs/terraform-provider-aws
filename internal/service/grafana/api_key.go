@@ -75,9 +75,9 @@ func resourceApiKeyCreate(d *schema.ResourceData, meta interface{}) error {
 
 	d.Set("key", output.Key)
 
-	if _, err := waitApiKeyCreated(conn, d.Id(), d.Timeout(schema.TimeoutCreate)); err != nil {
-		return fmt.Errorf("error waiting for Grafana Api Key (%s) create: %w", d.Id(), err)
-	}
+	//if _, err := waitApiKeyCreated(conn, d.Id(), d.Timeout(schema.TimeoutCreate)); err != nil {
+	//return fmt.Errorf("error waiting for Grafana Api Key (%s) create: %w", d.Id(), err)
+	//}
 
 	return resourceApiKeyRead(d, meta)
 }
