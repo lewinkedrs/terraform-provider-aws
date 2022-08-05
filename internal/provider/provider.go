@@ -1537,6 +1537,7 @@ func New(_ context.Context) (*schema.Provider, error) {
 			"aws_glue_user_defined_function":            glue.ResourceUserDefinedFunction(),
 			"aws_glue_workflow":                         glue.ResourceWorkflow(),
 
+			"aws_grafana_api_key":                      grafana.ResourceApiKey(),
 			"aws_grafana_license_association":          grafana.ResourceLicenseAssociation(),
 			"aws_grafana_role_association":             grafana.ResourceRoleAssociation(),
 			"aws_grafana_workspace":                    grafana.ResourceWorkspace(),

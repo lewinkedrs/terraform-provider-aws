@@ -15,6 +15,7 @@ import (
 func ResourceApiKey() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceApiKeyCreate,
+		Read:   resourceApiKeyRead,
 		Delete: resourceApiKeyDelete,
 
 		Importer: &schema.ResourceImporter{
@@ -29,13 +30,11 @@ func ResourceApiKey() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"key_name": {
 				Type:     schema.TypeString,
-				Computed: true,
 				Required: true,
 				ForceNew: true,
 			},
 			"key_role": {
 				Type:     schema.TypeString,
-				Computed: true,
 				Required: true,
 				ForceNew: true,
 			},
@@ -63,7 +62,7 @@ func resourceApiKeyCreate(d *schema.ResourceData, meta interface{}) error {
 	input := &managedgrafana.CreateWorkspaceApiKeyInput{
 		KeyName:       aws.String(d.Get("key_name").(string)),
 		KeyRole:       aws.String(d.Get("key_role").(string)),
-		SecondsToLive: aws.Int64(d.Get("seconds_to_live").(int64)),
+		SecondsToLive: aws.Int64(int64(d.Get("seconds_to_live").(int))),
 		WorkspaceId:   aws.String(d.Get("workspace_id").(string)),
 	}
 
@@ -80,6 +79,10 @@ func resourceApiKeyCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("error waiting for Grafana Api Key (%s) create: %w", d.Id(), err)
 	}
 
+	return resourceApiKeyRead(d, meta)
+}
+
+func resourceApiKeyRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
